@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Button } from './ui/button';
 import { Minus, Plus, ShoppingCart, X } from 'lucide-react';
+import formatTND from '../utils/formatPrice';
 
 interface AddToCartModalProps {
   isOpen: boolean;
@@ -56,15 +57,15 @@ export function AddToCartModal({ isOpen, onClose, product, onConfirm }: AddToCar
             Ajouter au panier
           </DialogTitle>
         </DialogHeader>
-        
+
         <div className="space-y-6 py-4">
           {/* Product Info */}
           <div className="flex gap-4">
             <div className="w-20 h-20 min-w-[80px] min-h-[80px] max-w-[80px] max-h-[80px] bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
               {product.image ? (
-                <img 
-                  src={product.image} 
-                  alt={product.name} 
+                <img
+                  src={product.image}
+                  alt={product.name}
                   className="w-20 h-20 object-cover"
                   style={{ maxWidth: '80px', maxHeight: '80px', width: '80px', height: '80px' }}
                 />
@@ -76,7 +77,7 @@ export function AddToCartModal({ isOpen, onClose, product, onConfirm }: AddToCar
             </div>
             <div className="flex-1">
               <h3 className="font-semibold text-gray-900 mb-1">{product.name}</h3>
-              <p className="text-lg font-bold text-orange-600">${product.price.toFixed(2)}</p>
+              <p className="text-lg font-bold text-orange-600">{formatTND(product.price)}</p>
               {product.stock !== undefined && (
                 <p className="text-sm text-gray-500 mt-1">
                   {product.stock > 0 ? `${product.stock} en stock` : 'Rupture de stock'}
@@ -98,7 +99,7 @@ export function AddToCartModal({ isOpen, onClose, product, onConfirm }: AddToCar
               >
                 <Minus className="w-4 h-4" />
               </Button>
-              
+
               <div className="flex-1 text-center">
                 <input
                   type="number"
@@ -116,7 +117,7 @@ export function AddToCartModal({ isOpen, onClose, product, onConfirm }: AddToCar
                   className="w-full text-center text-xl font-semibold border rounded-lg py-2"
                 />
               </div>
-              
+
               <Button
                 variant="outline"
                 size="sm"
@@ -134,7 +135,7 @@ export function AddToCartModal({ isOpen, onClose, product, onConfirm }: AddToCar
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Total:</span>
               <span className="text-2xl font-bold text-gray-900">
-                ${totalPrice.toFixed(2)}
+                {formatTND(totalPrice)}
               </span>
             </div>
           </div>

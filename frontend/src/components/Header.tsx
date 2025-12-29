@@ -9,6 +9,8 @@ import { Badge } from './ui/badge';
 import { createOrder } from '../services/orderService';
 import RegisterForm from './RegisterForm';
 import { Login } from './Login';
+import formatTND from '../utils/formatPrice';
+import logo from '../assets/logo.png';
 
 interface HeaderProps {
   isLoggedIn: boolean;
@@ -26,7 +28,7 @@ export function Header({ isLoggedIn, userRole, userName = 'John Buyer', showCart
   const [cartDialogOpen, setCartDialogOpen] = useState(false);
   const [registerDialogOpen, setRegisterDialogOpen] = useState(false);
   const [registerAsVendor, setRegisterAsVendor] = useState(false);
-  
+
   // useContext hook - access cart data
   const { cart, removeFromCart, clearCart, cartTotal, cartItemsCount, showToast } = useContext(CartContext);
 
@@ -92,12 +94,11 @@ export function Header({ isLoggedIn, userRole, userName = 'John Buyer', showCart
   return (
     <header className="bg-white border-b border-gray-200 px-6 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <div 
-          className="flex items-center gap-2 cursor-pointer" 
+        <div
+          className="flex items-center gap-2 cursor-pointer"
           onClick={() => onNavigate('home')}
         >
-          <div className="w-6 h-6 bg-slate-700 transform rotate-45" />
-          <span className="text-slate-900">Elbazare</span>
+          <img src={logo} alt="Elbazare" className="h-10 w-auto" />
         </div>
 
         <div className="flex-1 max-w-2xl mx-8">
@@ -139,12 +140,12 @@ export function Header({ isLoggedIn, userRole, userName = 'John Buyer', showCart
                             <div className="flex-1">
                               <h4 className="font-medium text-sm">{item.name}</h4>
                               <p className="text-sm text-gray-500">
-                                ${item.price.toFixed(2)} x {item.quantity}
+                                {formatTND(item.price)} x {item.quantity}
                               </p>
                             </div>
                             <div className="flex items-center gap-2">
                               <span className="font-semibold">
-                                ${(item.price * item.quantity).toFixed(2)}
+                                {formatTND(item.price * item.quantity)}
                               </span>
                               <Button
                                 variant="ghost"
@@ -162,19 +163,19 @@ export function Header({ isLoggedIn, userRole, userName = 'John Buyer', showCart
                         <div className="flex justify-between items-center mb-4">
                           <span className="font-semibold">Total:</span>
                           <span className="text-xl font-bold text-green-600">
-                            ${cartTotal.toFixed(2)}
+                            {formatTND(cartTotal)}
                           </span>
                         </div>
                         <div className="flex gap-2">
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             className="flex-1 gap-2"
                             onClick={clearCart}
                           >
                             <Trash2 className="w-4 h-4" />
                             Vider
                           </Button>
-                          <Button 
+                          <Button
                             className="flex-1 bg-slate-700 hover:bg-slate-800"
                             onClick={handleCheckout}
                           >
@@ -188,12 +189,12 @@ export function Header({ isLoggedIn, userRole, userName = 'John Buyer', showCart
               </DialogContent>
             </Dialog>
           )}
-          
+
           {isLoggedIn ? (
             <div className="flex items-center gap-3">
               {userRole === 'vendeur' && (
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   className="gap-2"
                   onClick={navigateToStore}
                 >
@@ -202,8 +203,8 @@ export function Header({ isLoggedIn, userRole, userName = 'John Buyer', showCart
                 </Button>
               )}
               {userRole === 'client' && (
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   className="gap-2"
                   onClick={() => onNavigate('my-orders')}
                 >
@@ -212,8 +213,8 @@ export function Header({ isLoggedIn, userRole, userName = 'John Buyer', showCart
                 </Button>
               )}
               <span className="text-gray-700">{userName}</span>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="gap-2"
                 onClick={handleLogout}
               >
@@ -222,7 +223,7 @@ export function Header({ isLoggedIn, userRole, userName = 'John Buyer', showCart
               </Button>
             </div>
           ) : (
-            <Login 
+            <Login
               onLogin={onLogin}
               onNavigate={onNavigate}
               onOpenRegister={handleOpenRegister}
@@ -241,7 +242,7 @@ export function Header({ isLoggedIn, userRole, userName = 'John Buyer', showCart
                 <DialogTitle className="text-lg">Créer un compte</DialogTitle>
               </DialogHeader>
               <div className="py-2">
-                <RegisterForm 
+                <RegisterForm
                   defaultRole={registerAsVendor ? 'vendeur' : 'client'}
                   onRegister={(userData) => {
                     setRegisterDialogOpen(false);
@@ -254,7 +255,7 @@ export function Header({ isLoggedIn, userRole, userName = 'John Buyer', showCart
                     // handleLogin in App.tsx already handles navigation based on role
                     onLogin(userData.role as UserRole, userData.name);
                   }}
-                  onNavigate={() => {}}
+                  onNavigate={() => { }}
                   onOpenLogin={() => {
                     setRegisterDialogOpen(false);
                     setRegisterAsVendor(false);

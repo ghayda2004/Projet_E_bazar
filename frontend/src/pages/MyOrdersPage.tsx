@@ -5,6 +5,7 @@ import { getUserOrders, type Order } from '../services/orderService';
 import { Package, Clock, Truck, CheckCircle, XCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
+import formatTND from '../utils/formatPrice';
 
 interface MyOrdersPageProps {
   isLoggedIn: boolean;
@@ -15,13 +16,13 @@ interface MyOrdersPageProps {
   onNavigate: (page: CurrentPage) => void;
 }
 
-export default function MyOrdersPage({ 
-  isLoggedIn, 
-  userRole, 
-  userName, 
-  onLogin, 
-  onLogout, 
-  onNavigate 
+export default function MyOrdersPage({
+  isLoggedIn,
+  userRole,
+  userName,
+  onLogin,
+  onLogout,
+  onNavigate
 }: MyOrdersPageProps) {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -83,8 +84,8 @@ export default function MyOrdersPage({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header 
-        isLoggedIn={isLoggedIn} 
+      <Header
+        isLoggedIn={isLoggedIn}
         userRole={userRole}
         userName={userName}
         showCart={true}
@@ -162,7 +163,7 @@ export default function MyOrdersPage({
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-gray-500 mb-1">Total</p>
-                    <p className="text-2xl font-bold text-gray-900">${order.total.toFixed(2)}</p>
+                    <p className="text-2xl font-bold text-gray-900">{formatTND(order.total)}</p>
                   </div>
                 </div>
 
@@ -175,7 +176,7 @@ export default function MyOrdersPage({
                           {item.name} <span className="text-gray-500">x {item.quantity}</span>
                         </span>
                         <span className="font-medium text-gray-900">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          {formatTND(item.price * item.quantity)}
                         </span>
                       </div>
                     ))}

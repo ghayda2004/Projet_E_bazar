@@ -45,7 +45,26 @@ export const createOrder = async (req, res) => {
     for (const [sellerId, sellerItems] of Object.entries(itemsBySeller)) {
       const total = sellerItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       
-      // Create order with items
+      // Check stock availability before creating order
+      for (const item of sellerItems) {
+        const product = await prisma.product.findUnique({
+          where: { id: parseInt(item.productId) }
+        });
+        
+        if (!product) {
+          return res.status(404).json({ 
+            message: `Product ${item.name} not found` 
+          });
+        }
+        
+        if (product.stock < parseInt(item.quantity)) {
+          return res.status(400).json({ 
+            message: `Stock insuffisant pour ${item.name}. Stock disponible: ${product.stock}` 
+          });
+        }
+      }
+      
+      // Create order with items and decrease stock
       const newOrder = await prisma.order.create({
         data: {
           userId: req.user.id,
@@ -73,6 +92,18 @@ export const createOrder = async (req, res) => {
           }
         }
       });
+
+      // Decrease stock for each product in the order
+      for (const item of sellerItems) {
+        await prisma.product.update({
+          where: { id: parseInt(item.productId) },
+          data: {
+            stock: {
+              decrement: parseInt(item.quantity)
+            }
+          }
+        });
+      }
 
       createdOrders.push(newOrder);
     }
@@ -158,13 +189,32 @@ export const updateOrderStatus = async (req, res) => {
       return res.status(400).json({ message: 'Invalid status' });
     }
 
-    // Check if order exists
+    // Check if order exists and get its items
     const order = await prisma.order.findUnique({
-      where: { id: parseInt(id) }
+      where: { id: parseInt(id) },
+      include: {
+        items: true
+      }
     });
 
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
+    }
+
+    // If order is being cancelled, restore stock
+    if (status === 'cancelled' && order.status !== 'cancelled') {
+      console.log('Order cancelled - restoring stock for order', id);
+      for (const item of order.items) {
+        await prisma.product.update({
+          where: { id: item.productId },
+          data: {
+            stock: {
+              increment: item.quantity
+            }
+          }
+        });
+        console.log(`Restored ${item.quantity} units of product ${item.productId}`);
+      }
     }
 
     // Update order status

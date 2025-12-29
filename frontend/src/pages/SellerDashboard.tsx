@@ -8,6 +8,7 @@ import { ProductForm } from '../components/ProductForm';
 import type { CurrentPage } from '../../App';
 import { useState, useEffect } from 'react';
 import { getSellerProducts, deleteProduct } from '../services/productService';
+import formatTND from '../utils/formatPrice';
 import { getSellerOrders, updateOrderStatus, type Order, type OrderItem } from '../services/orderService';
 
 interface SellerDashboardProps {
@@ -103,8 +104,8 @@ export default function SellerDashboard({ userName, onLogout, onNavigate }: Sell
     return labels[status] || status;
   };
 
-  const filteredOrders = orderFilter === 'all' 
-    ? orders 
+  const filteredOrders = orderFilter === 'all'
+    ? orders
     : orders.filter(order => order.status === orderFilter);
 
   // Calculate stats
@@ -114,15 +115,15 @@ export default function SellerDashboard({ userName, onLogout, onNavigate }: Sell
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header 
-        isLoggedIn={true} 
+      <Header
+        isLoggedIn={true}
         userRole="vendeur"
         userName={userName || 'Ma Boutique'}
-        onLogin={() => {}}
+        onLogin={() => { }}
         onLogout={onLogout}
         onNavigate={onNavigate}
       />
-      
+
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -147,7 +148,7 @@ export default function SellerDashboard({ userName, onLogout, onNavigate }: Sell
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard
             title="Revenu total"
-            value={`$${totalRevenue.toLocaleString()}`}
+            value={formatTND(totalRevenue)}
             icon={BarChart3}
             iconColor="bg-purple-100 text-purple-600"
           />
@@ -180,7 +181,7 @@ export default function SellerDashboard({ userName, onLogout, onNavigate }: Sell
               Ajouter un produit
             </Button>
           </div>
-          
+
           {loading ? (
             <div className="p-8 text-center text-gray-500">
               <RefreshCw className="w-8 h-8 mx-auto mb-2 animate-spin" />
@@ -215,9 +216,9 @@ export default function SellerDashboard({ userName, onLogout, onNavigate }: Sell
                     <TableCell>
                       <Badge variant="secondary">{product.category}</Badge>
                     </TableCell>
-                    <TableCell>${product.price}</TableCell>
+                    <TableCell>{formatTND(product.price)}</TableCell>
                     <TableCell>
-                      <Badge 
+                      <Badge
                         variant="secondary"
                         className="bg-green-100 text-green-700 hover:bg-green-100"
                       >
@@ -226,17 +227,17 @@ export default function SellerDashboard({ userName, onLogout, onNavigate }: Sell
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           className="h-8 w-8 p-0"
                           onClick={() => handleEditProduct(product)}
                         >
                           <Pencil className="w-4 h-4 text-blue-600" />
                         </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           className="h-8 w-8 p-0"
                           onClick={() => handleDeleteProduct(product.id)}
                         >
@@ -275,7 +276,7 @@ export default function SellerDashboard({ userName, onLogout, onNavigate }: Sell
               </div>
             </div>
           </div>
-          
+
           {loading ? (
             <div className="p-8 text-center text-gray-500">
               <RefreshCw className="w-8 h-8 mx-auto mb-2 animate-spin" />
@@ -283,7 +284,7 @@ export default function SellerDashboard({ userName, onLogout, onNavigate }: Sell
             </div>
           ) : filteredOrders.length === 0 ? (
             <div className="p-8 text-center text-gray-500">
-              {orderFilter === 'all' 
+              {orderFilter === 'all'
                 ? 'Aucune commande pour le moment.'
                 : `Aucune commande avec le statut "${getStatusLabel(orderFilter)}".`
               }
@@ -329,10 +330,10 @@ export default function SellerDashboard({ userName, onLogout, onNavigate }: Sell
                       </div>
                     </TableCell>
                     <TableCell className="font-semibold">
-                      ${order.total.toFixed(2)}
+                      {formatTND(order.total)}
                     </TableCell>
                     <TableCell>
-                      <Badge 
+                      <Badge
                         variant="secondary"
                         className={getStatusBadgeColor(order.status)}
                       >

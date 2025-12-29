@@ -7,6 +7,7 @@ import type { UserRole, CurrentPage } from '../../App';
 import { CartContext } from '../../App';
 import { Button } from '../components/ui/button';
 import { ShoppingBag, Store, TrendingUp, Users, ArrowRight, Sparkles, Package } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 interface Seller {
   id: number | string;
@@ -141,6 +142,31 @@ export default function HomePage({ isLoggedIn, userRole, userName, onLogin, onLo
           </div>
         </div>
       )}
+
+      {/* Logo and Description Section */}
+      <section className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 py-16">
+          <div className="flex flex-col md:flex-row md:items-start gap-8 md:gap-12">
+            {/* Logo on the left */}
+            <div className="flex-shrink-0 mx-auto md:mx-0">
+              <img src={logo} alt="Elbazare" className="h-32 md:h-40 w-auto" />
+            </div>
+
+            {/* Description on the right */}
+            <div className="flex-1 text-center md:text-left">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+                Bienvenue sur Elbazare
+              </h2>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                Elbazare est votre marketplace de confiance en Tunisie. Nous connectons acheteurs et vendeurs
+                pour créer une expérience de commerce en ligne simple, sécurisée et efficace.
+                Découvrez des milliers de produits, soutenez les commerçants locaux et profitez
+                d'une plateforme moderne conçue pour tous vos besoins d'achat en ligne.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Enhanced Hero Section */}
       <section className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 text-white relative overflow-hidden">

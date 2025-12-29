@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -13,18 +13,56 @@ interface ProductFormProps {
 
 export function ProductForm({ open, onClose, onSuccess, product }: ProductFormProps) {
   const [formData, setFormData] = useState({
-    name: product?.name || '',
-    price: product?.price || '',
-    category: product?.category || '',
-    categoryId: product?.categoryId || 'furniture',
-    stock: product?.stock || '',
-    description: product?.description || '',
-    discount: product?.discount || '',
-    image: product?.image || '',
+    name: '',
+    price: '',
+    category: '',
+    categoryId: 'furniture',
+    stock: '',
+    description: '',
+    discount: '',
+    image: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [imageUploaded, setImageUploaded] = useState(!!product?.image);
+  const [imageUploaded, setImageUploaded] = useState(false);
+
+  // Reset form when dialog opens or product changes
+  useEffect(() => {
+    if (open) {
+      try {
+        if (product) {
+          // Editing existing product
+          setFormData({
+            name: product.name || '',
+            price: product.price ? String(product.price) : '',
+            category: product.category || '',
+            categoryId: product.categoryId || 'furniture',
+            stock: product.stock ? String(product.stock) : '',
+            description: product.description || '',
+            discount: product.discount ? String(product.discount) : '',
+            image: product.image || '',
+          });
+          setImageUploaded(!!product.image);
+        } else {
+          // Adding new product - reset form
+          setFormData({
+            name: '',
+            price: '',
+            category: '',
+            categoryId: 'furniture',
+            stock: '',
+            description: '',
+            discount: '',
+            image: '',
+          });
+          setImageUploaded(false);
+        }
+        setError('');
+      } catch (err) {
+        console.error('Error resetting form:', err);
+      }
+    }
+  }, [open, product]);
 
   const categories = [
     { id: 'furniture', label: 'Meubles' },
@@ -67,7 +105,7 @@ export function ProductForm({ open, onClose, onSuccess, product }: ProductFormPr
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+
     // Update category label when categoryId changes
     if (name === 'categoryId') {
       const category = categories.find(c => c.id === value);
@@ -90,7 +128,7 @@ export function ProductForm({ open, onClose, onSuccess, product }: ProductFormPr
   };
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
+    <Dialog open={open} onOpenChange={(isOpen: boolean) => !isOpen && onClose()}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{product ? 'Modifier le produit' : 'Ajouter un produit'}</DialogTitle>
@@ -113,7 +151,7 @@ export function ProductForm({ open, onClose, onSuccess, product }: ProductFormPr
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Prix ($)
+                Prix (DT)
               </label>
               <Input
                 type="number"
