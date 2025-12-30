@@ -3,12 +3,19 @@ import HomePage from './src/pages/HomePage';
 import ProductsPage from './src/pages/ProductsPage';
 import SellerDashboard from './src/pages/SellerDashboard'; 
 import StoreProfilePage from './src/pages/StoreProfilePage';
+import ChatBotPage from './src/pages/ChatBotPage';  
 import MyOrdersPage from './src/pages/MyOrdersPage';
 import { getCurrentUser } from './src/services/authService';
 import { Toast } from './src/components/Toast';
 
 export type UserRole = 'client' | 'vendeur' | null;
-export type CurrentPage = 'home' | 'products' | 'seller-dashboard' | 'store-profile' | 'my-orders'  | 'chatbot';
+export type CurrentPage =
+  | 'home'
+  | 'products'
+  | 'seller-dashboard'
+  | 'store-profile'
+  | 'my-orders'
+  | 'chatbot'; //
 
 export interface CartItem {
   id: string | number;
@@ -39,7 +46,6 @@ export const CartContext = createContext<CartContextType>({
   showToast: () => {},
 });
 
-// Helper to load cart from localStorage
 const loadCart = (): CartItem[] => {
   try {
     const savedCart = localStorage.getItem('cart');
@@ -49,7 +55,6 @@ const loadCart = (): CartItem[] => {
   }
 };
 
-// Helper to save cart to localStorage
 const saveCart = (cart: CartItem[]) => {
   try {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -67,18 +72,15 @@ function App() {
   const [selectedSellerId, setSelectedSellerId] = useState<number | string | null>(null);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' | 'warning' } | null>(null);
 
-  // Auto-login check on mount
   useEffect(() => {
     const user = getCurrentUser();
     if (user && (user.role === 'client' || user.role === 'vendeur')) {
       setUserRole(user.role);
       setIsLoggedIn(true);
       setUserName(user.name);
-      // Don't auto-navigate, stay on current page
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
   useEffect(() => {
     saveCart(cart);
   }, [cart]);
@@ -95,15 +97,13 @@ function App() {
   };
 
   const handleLogout = () => {
-    // Clear localStorage
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
-    // Clear state
     setUserRole(null);
     setIsLoggedIn(false);
     setCurrentPage('home');
     setUserName('User');
-    setCart([]); // Clear cart on logout
+    setCart([]);
     localStorage.removeItem('cart');
   };
 
@@ -114,7 +114,6 @@ function App() {
     }
   };
 
-  // useCallback hook - memoizes the addToCart function
   const addToCart = useCallback((item: Omit<CartItem, 'quantity'>, quantity: number = 1) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
@@ -137,7 +136,6 @@ function App() {
     setCart([]);
   }, []);
 
-  // useMemo hook - memoizes computed values
   const cartTotal = useMemo(() => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   }, [cart]);
@@ -168,65 +166,82 @@ function App() {
       <div>
         {currentPage === 'home' && (
           <HomePage 
-          isLoggedIn={isLoggedIn} 
-          userRole={userRole}
-          userName={userName}
-          onLogin={handleLogin}
-          onLogout={handleLogout}
-          onNavigate={navigate}
-          onOpenRegister={() => {
-            if ((window as any).__openRegisterAsVendor) {
-              (window as any).__openRegisterAsVendor();
-            }
-          }}
-        />
-      )}
-      {currentPage === 'products' && (
-        <ProductsPage 
-          isLoggedIn={isLoggedIn} 
-          userRole={userRole}
-          userName={userName}
-          onLogin={handleLogin}
-          onLogout={handleLogout}
-          onNavigate={navigate}
-        />
-      )}
-      {currentPage === 'seller-dashboard' && userRole === 'vendeur' && (
-        <SellerDashboard 
-          userName={userName}
-          onLogout={handleLogout}
-          onNavigate={navigate}
-        />
-      )}
-      {currentPage === 'store-profile' && selectedSellerId && (
-        <StoreProfilePage 
-          sellerId={selectedSellerId}
-          isLoggedIn={isLoggedIn}
-          userRole={userRole}
-          userName={userName}
-          onLogin={handleLogin}
-          onLogout={handleLogout}
-          onNavigate={navigate}
-          onBack={() => navigate('home')}
-        />
-      )}
-      {currentPage === 'my-orders' && isLoggedIn && userRole === 'client' && (
-        <MyOrdersPage 
-          isLoggedIn={isLoggedIn}
-          userRole={userRole}
-          userName={userName}
-          onLogin={handleLogin}
-          onLogout={handleLogout}
-          onNavigate={navigate}
-        />
-      )}
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
-      )}
+            isLoggedIn={isLoggedIn} 
+            userRole={userRole}
+            userName={userName}
+            onLogin={handleLogin}
+            onLogout={handleLogout}
+            onNavigate={navigate}
+            onOpenRegister={() => {
+              if ((window as any).__openRegisterAsVendor) {
+                (window as any).__openRegisterAsVendor();
+              }
+            }}
+          />
+        )}
+
+        {currentPage === 'products' && (
+          <ProductsPage 
+            isLoggedIn={isLoggedIn} 
+            userRole={userRole}
+            userName={userName}
+            onLogin={handleLogin}
+            onLogout={handleLogout}
+            onNavigate={navigate}
+          />
+        )}
+
+        {currentPage === 'seller-dashboard' && userRole === 'vendeur' && (
+          <SellerDashboard 
+            userName={userName}
+            onLogout={handleLogout}
+            onNavigate={navigate}
+          />
+        )}
+
+        {currentPage === 'store-profile' && selectedSellerId && (
+          <StoreProfilePage 
+            sellerId={selectedSellerId}
+            isLoggedIn={isLoggedIn}
+            userRole={userRole}
+            userName={userName}
+            onLogin={handleLogin}
+            onLogout={handleLogout}
+            onNavigate={navigate}
+            onBack={() => navigate('home')}
+          />
+        )}
+
+        {currentPage === 'my-orders' && isLoggedIn && userRole === 'client' && (
+          <MyOrdersPage 
+            isLoggedIn={isLoggedIn}
+            userRole={userRole}
+            userName={userName}
+            onLogin={handleLogin}
+            onLogout={handleLogout}
+            onNavigate={navigate}
+          />
+        )}
+
+        {/*la page ChatBot */}
+        {currentPage === 'chatbot' && (
+          <ChatBotPage
+            isLoggedIn={isLoggedIn}
+            userRole={userRole}
+            userName={userName}
+            onLogin={handleLogin}
+            onLogout={handleLogout}
+            onNavigate={navigate}
+          />
+        )}
+
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
       </div>
     </CartContext.Provider>
   );
