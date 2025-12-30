@@ -46,6 +46,7 @@ export const products = [
     category: 'Meubles',
     seller: 'Premium Furniture Co',
     emoji: '🛋️',
+    image: 'https://images.unsplash.com/photo-1680503146454-0fe569cef4eb?auto=format&fit=crop&w=800&q=60',
     categoryId: 'furniture',
   },
   {
@@ -57,6 +58,7 @@ export const products = [
     seller: 'Tech World Store',
     discount: 20,
     emoji: '🎧',
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=60',
     categoryId: 'electronics',
   },
   {
@@ -77,6 +79,7 @@ export const products = [
     category: 'Mode',
     seller: 'Fashion Hub',
     emoji: '🧥',
+    image: 'https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&w=800&q=60',
     categoryId: 'fashion',
   },
   {
@@ -88,6 +91,7 @@ export const products = [
     seller: 'Tech World Store',
     discount: 15,
     emoji: '💻',
+    image: 'https://images.unsplash.com/photo-1511385348-a52b4a160dc2?auto=format&fit=crop&w=800&q=60',
     categoryId: 'electronics',
   },
   {
@@ -98,6 +102,7 @@ export const products = [
     category: 'Sports',
     seller: 'Sports Zone',
     emoji: '🏀',
+    image: 'https://images.unsplash.com/photo-1760177379323-2b22f8d41707?auto=format&fit=crop&w=800&q=60',
     categoryId: 'sports',
   },
   {
@@ -108,6 +113,7 @@ export const products = [
     category: 'Livres',
     seller: 'Book Store',
     emoji: '📚',
+    image: 'https://images.unsplash.com/photo-1568667256531-7d5ac92eaa7a?auto=format&fit=crop&w=800&q=60',
     categoryId: 'books',
   },
   {
@@ -119,6 +125,7 @@ export const products = [
     seller: 'Green Living',
     discount: 10,
     emoji: '🌱',
+    image: 'https://images.unsplash.com/photo-1581572145515-5c6c361286ca?auto=format&fit=crop&w=800&q=60',
     categoryId: 'garden',
   },
   {
@@ -129,6 +136,7 @@ export const products = [
     category: 'Meubles',
     seller: 'Premium Furniture Co',
     emoji: '💺',
+    image: 'https://images.unsplash.com/photo-1663756915302-437cd36f4cfd?auto=format&fit=crop&w=800&q=60',
     categoryId: 'furniture',
   },
   {
@@ -140,6 +148,7 @@ export const products = [
     seller: 'Tech World Store',
     discount: 25,
     emoji: '⌚',
+    image: 'https://images.unsplash.com/photo-1704961211864-b20364cade61?auto=format&fit=crop&w=800&q=60',
     categoryId: 'electronics',
   },
   {
@@ -150,6 +159,7 @@ export const products = [
     category: 'Mode',
     seller: 'Fashion Hub',
     emoji: '🎒',
+    image: 'https://images.unsplash.com/photo-1591348278863-a8fb3887e2aa?auto=format&fit=crop&w=800&q=60',
     categoryId: 'fashion',
   },
   {
@@ -160,6 +170,7 @@ export const products = [
     category: 'Jeux & Jouets',
     seller: 'Tech World Store',
     emoji: '🎮',
+    image: 'https://images.unsplash.com/photo-1604846887565-640d2f52d564?auto=format&fit=crop&w=800&q=60',
     categoryId: 'games',
   },
 ];

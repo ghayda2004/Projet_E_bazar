@@ -7,6 +7,7 @@ import type { UserRole, CurrentPage } from '../../App';
 import { CartContext } from '../../App';
 import { Button } from '../components/ui/button';
 import { ShoppingBag, Store, TrendingUp, Users, ArrowRight, Sparkles, Package } from 'lucide-react';
+import { products as mockProducts } from '../data/mockData';
 
 interface Seller {
   id: number | string;
@@ -240,46 +241,40 @@ export default function HomePage({ isLoggedIn, userRole, userName, onLogin, onLo
             <div className="inline-block w-8 h-8 border-4 border-slate-300 border-t-slate-700 rounded-full animate-spin mb-4"></div>
             <p className="text-gray-500">Chargement des produits...</p>
           </div>
-        ) : products.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-            <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 mb-2">Aucun produit disponible pour le moment</p>
-            <p className="text-sm text-gray-400">Revenez bientôt pour découvrir nos produits!</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.slice(0, 8).map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                rating={product.rating}
-                category={product.category}
-                seller={product.seller}
-                emoji={product.emoji}
-                image={product.image}
-                discount={product.discount}
-                stock={product.stock}
-                sellerId={product.sellerId}
-                onAddToCart={(quantity) => {
-                  if (isLoggedIn && userRole === 'client') {
-                    addToCart({
-                      id: product.id,
-                      name: product.name,
-                      price: product.price,
-                      image: product.image,
-                      sellerId: product.sellerId,
-                    }, quantity);
-                    showToast(`${product.name} ajouté au panier (x${quantity})`, 'success');
-                  } else if (!isLoggedIn) {
-                    showToast('Veuillez vous connecter pour ajouter au panier', 'warning');
-                  }
-                }}
-              />
-            ))}
-          </div>
-        )}
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {(products.length ? products.slice(0, 8) : mockProducts.slice(0, 8)).map((product: any) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  rating={product.rating}
+                  category={product.category}
+                  seller={product.seller}
+                  emoji={product.emoji}
+                  image={product.image}
+                  discount={product.discount}
+                  stock={product.stock ?? 10}
+                  sellerId={product.sellerId}
+                  onAddToCart={(quantity) => {
+                    if (isLoggedIn && userRole === 'client') {
+                      addToCart({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        sellerId: product.sellerId,
+                      }, quantity);
+                      showToast(`${product.name} ajouté au panier (x${quantity})`, 'success');
+                    } else if (!isLoggedIn) {
+                      showToast('Veuillez vous connecter pour ajouter au panier', 'warning');
+                    }
+                  }}
+                />
+              ))}
+            </div>
+          )}
       </section>
     </div>
   );
