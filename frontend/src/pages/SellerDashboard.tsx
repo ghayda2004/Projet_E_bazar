@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { getSellerProducts, deleteProduct } from '../services/productService';
 import formatTND from '../utils/formatPrice';
 import { getSellerOrders, updateOrderStatus, type Order, type OrderItem } from '../services/orderService';
+import logo from '../assets/logo.png';
 
 interface SellerDashboardProps {
   userName?: string;
@@ -128,7 +129,7 @@ export default function SellerDashboard({ userName, onLogout, onNavigate }: Sell
         <div className="flex items-center justify-between mb-8">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-6 h-6 bg-slate-700 transform rotate-45" />
+              <img src={logo} alt="Elbazar Logo" className="w-10 h-10 object-contain" />
               <h1 className="text-gray-900">Elbazare Seller</h1>
             </div>
           </div>

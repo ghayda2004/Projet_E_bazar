@@ -146,10 +146,10 @@ export default function HomePage({ isLoggedIn, userRole, userName, onLogin, onLo
       {/* Logo and Description Section */}
       <section className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-16">
-          <div className="flex flex-col md:flex-row md:items-start gap-8 md:gap-12">
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             {/* Logo on the left */}
-            <div className="flex-shrink-0 mx-auto md:mx-0">
-              <img src={logo} alt="Elbazare" className="h-32 md:h-40 w-auto" />
+            <div className="flex-shrink-0">
+              <img src={logo} alt="Elbazare" className="h-48 md:h-64 w-auto" />
             </div>
 
             {/* Description on the right */}

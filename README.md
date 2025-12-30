@@ -1,53 +1,10 @@
-# 🛒 El Bazar - Plateforme E-commerce
+# 🛒 Elbazar - E-commerce Platform
 
-El Bazar est une plateforme e-commerce moderne développée avec React, Node.js, et Prisma, conçue pour connecter les clients et les vendeurs locaux au sein d'un même espace digital. L'objectif du site est de mettre en avant les petits commerces et leurs produits, tout en offrant une expérience fluide, rapide et intuitive aux utilisateurs.
+A modern e-commerce platform built with React, Node.js, Express, and Prisma. Connect local buyers and sellers in one digital marketplace.
 
-## 📋 Table des matières
+## 🚀 Quick Start
 
-- [Fonctionnalités](#fonctionnalités)
-- [Technologies](#technologies)
-- [Prérequis](#prérequis)
-- [Installation](#installation)
-- [Démarrage du projet](#démarrage-du-projet)
-- [Structure du projet](#structure-du-projet)
-- [API Endpoints](#api-endpoints)
-- [Résolution des problèmes](#résolution-des-problèmes)
-
-## ✨ Fonctionnalités
-
-### Client
-- ✅ **Authentification JWT** (Inscription/Connexion/Déconnexion)
-- ✅ **Navigation des produits** avec filtres et recherche
-- ✅ **Panier d'achats** avec gestion des quantités
-- ✅ **Gestion des commandes** et historique
-- ✅ **Profils des vendeurs** avec leurs produits
-- ✅ **Formulaire de contact**
-
-### Vendeur
-- ✅ **Dashboard** avec statistiques en temps réel
-- ✅ **Gestion des produits** (Créer, Lire, Modifier, Supprimer)
-- ✅ **Gestion des commandes** reçues
-- ✅ **Profil de boutique** personnalisable
-
-## 🛠 Technologies
-
-### Frontend
-- **React 18** avec TypeScript
-- **Vite** pour le build rapide
-- **Tailwind CSS** pour le styling
-- **Shadcn/ui** pour les composants UI
-- **Lucide React** pour les icônes
-
-### Backend
-- **Node.js** avec Express
-- **Prisma ORM** pour la base de données
-- **SQLite** (développement) / PostgreSQL (production)
-- **JWT** pour l'authentification
-- **bcryptjs** pour le hachage des mots de passe
-
-## 📦 Prérequis
-
-Avant de commencer, assurez-vous d'avoir installé:
+### Prerequisites
 
 - **Node.js** (version 18 ou supérieure)
 - **npm** ou **yarn**
@@ -91,106 +48,88 @@ Générer le client Prisma et créer la base de données:
 ```bash
 npx prisma generate
 npx prisma db push
+
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+
+### Installation & Setup
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/ghayda2004/Projet_E_bazar.git
+cd Projet_E_bazar
 ```
 
-### 4. (Optionnel) Peupler la base de données avec des données de test
-
+**2. Setup Backend**
 ```bash
+cd backend
+npm install
+```
+
+Create `.env` file in backend directory:
+```env
+DATABASE_URL="file:./dev.db"
+PORT=5000
+JWT_SECRET="your_jwt_secret_key_change_this_in_production"
+NODE_ENV=development
+```
+
+Initialize database:
+```bash
+npx prisma generate
+npx prisma db push
 node prisma/seed.js
 ```
 
-### 5. Installer les dépendances du Frontend
-
+**3. Setup Frontend**
 ```bash
 cd ../frontend
 npm install
 ```
 
-## 🚀 Démarrage du projet
+### Running the Application
 
-### Option 1: Démarrage Manuel (Recommandé pour le développement)
-
-**Terminal 1 - Backend:**
+**Terminal 1 - Start Backend:**
 ```bash
 cd backend
 node src/server.js
 ```
 
-Vous devriez voir:
+You should see:
 ```
 ✅ Database connected successfully
 🚀 Server is running on http://localhost:5000
-📡 API endpoints:
-   - Authentication: http://localhost:5000/api/auth
-   - Products: http://localhost:5000/api/products
-   - Orders: http://localhost:5000/api/orders
-   - Contact: http://localhost:5000/api/contact
 ```
 
-**Terminal 2 - Frontend:**
+**Terminal 2 - Start Frontend:**
 ```bash
 cd frontend
 npm run dev
 ```
 
-Vous devriez voir:
+You should see:
 ```
-  VITE v6.3.5  ready in XXX ms
-  ➜  Local:   http://localhost:3000/
-```
-
-### Option 2: Script Automatisé (macOS/Linux)
-
-Créez un fichier `start.sh` à la racine du projet:
-
-```bash
-#!/bin/bash
-
-# Couleurs
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-
-echo -e "${BLUE}🚀 Démarrage de El Bazar...${NC}"
-
-# Démarrer le backend
-echo -e "${GREEN}📦 Démarrage du backend...${NC}"
-cd backend && node src/server.js &
-BACKEND_PID=$!
-
-# Attendre que le backend démarre
-sleep 3
-
-# Démarrer le frontend
-echo -e "${GREEN}🎨 Démarrage du frontend...${NC}"
-cd ../frontend && npm run dev &
-FRONTEND_PID=$!
-
-echo -e "${BLUE}✅ Application démarrée!${NC}"
-echo -e "${GREEN}Frontend: http://localhost:3000${NC}"
-echo -e "${GREEN}Backend: http://localhost:5000${NC}"
-
-# Arrêt propre avec Ctrl+C
-trap "kill $BACKEND_PID $FRONTEND_PID" EXIT
-wait
+VITE ready in XXX ms
+➜  Local:   http://localhost:3000/
 ```
 
-Rendre le script exécutable et le lancer:
-```bash
-chmod +x start.sh
-./start.sh
-```
+**Access the application:** Open http://localhost:3000 in your browser
 
-### 🌐 Accéder à l'application
+## 👥 Test Accounts
 
-Une fois les deux serveurs démarrés, ouvrez votre navigateur:
+After seeding the database:
 
-- **Frontend:** http://localhost:3000
-- **Backend API:** http://localhost:5000/api/health
+**Buyer Account:**
+- Email: `buyer@example.com`
+- Password: `password123`
 
-## 📁 Structure du projet
+**Seller Account:**
+- Email: `seller@example.com`
+- Password: `password123`
 
-```
+## 🏗️ Project Structure
+
+
 
 Projet_E_bazar/
 ├── frontend/              # Application React + Vite
@@ -209,132 +148,107 @@ Projet_E_bazar/
 │   │   │   └── MyOrdersPage.tsx
 │   │   ├── services/      # Services API
 │   │   │   ├── api.ts
-│   │   │   ├── authService.ts
-│   │   │   ├── productService.ts
-│   │   │   └── orderService.ts
-│   │   └── styles/        # Fichiers CSS
-│   ├── App.tsx            # Composant principal
-│   ├── main.tsx           # Point d'entrée
-│   └── package.json
-│
-├── backend/               # API Node.js + Express
-│   ├── src/
-│   │   ├── controllers/   # Logique métier
-│   │   │   ├── authController.js
-│   │   │   ├── productController.js
-│   │   │   ├── orderController.js
-│   │   │   └── contactController.js
-│   │   ├── routes/        # Routes API
-│   │   │   ├── authRoutes.js
-│   │   │   ├── productRoutes.js
-│   │   │   ├── orderRoutes.js
-│   │   │   └── contactRoutes.js
-│   │   ├── models/        # Configuration DB
-│   │   │   └── db.js      # Prisma client
-│   │   ├── middleware/    # Middleware
-│   │   │   └── auth.js    # JWT authentication
-│   │   └── server.js      # Point d'entrée serveur
+Projet_E_bazar/
+├── backend/
 │   ├── prisma/
-│   │   ├── schema.prisma  # Schéma de base de données
-│   │   ├── seed.js        # Données de test
-│   │   ├── dev.db         # Base de données SQLite
-│   │   └── migrations/    # Migrations Prisma
-│   ├── .env               # Variables d'environnement
+│   │   ├── schema.prisma      # Database schema
+│   │   └── seed.js            # Test data
+│   ├── src/
+│   │   ├── controllers/       # Business logic
+│   │   ├── routes/            # API routes
+│   │   ├── middleware/        # Authentication
+│   │   ├── models/            # Database config
+│   │   └── server.js          # Entry point
+│   ├── .env                   # Environment variables
 │   └── package.json
 │
-└── README.md              # Ce fichier
+└── frontend/
+    ├── src/
+    │   ├── components/        # Reusable components
+    │   ├── pages/             # Main pages
+    │   ├── services/          # API services
+    │   └── utils/             # Helper functions
+    ├── App.tsx                # Main component
+    └── package.json
 ```
 
-## 🔌 API Endpoints
+## 🔧 Features
+
+### For Buyers
+- ✅ Browse products with filters
+- ✅ Shopping cart management
+- ✅ Order placement and tracking
+- ✅ Seller profiles
+- ✅ Chatbot assistance
+
+### For Sellers
+- ✅ Dashboard with statistics
+- ✅ Product management (CRUD)
+- ✅ Order management
+- ✅ Store profile customization
+
+## � API Endpoints
 
 ### Authentication
-```
-POST   /api/auth/register     # Inscription
-POST   /api/auth/login        # Connexion
-GET    /api/auth/profile      # Profil utilisateur (Auth requis)
-PUT    /api/auth/profile      # Mise à jour profil (Auth requis)
-GET    /api/auth/sellers      # Liste des vendeurs
-GET    /api/auth/sellers/:id  # Détails d'un vendeur
-```
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login
+- `GET /api/auth/profile` - Get user profile
+- `GET /api/auth/sellers` - List all sellers
 
 ### Products
-```
-GET    /api/products              # Tous les produits
-GET    /api/products/:id          # Détails d'un produit
-GET    /api/products/seller       # Produits du vendeur (Auth requis)
-GET    /api/products/seller/:id   # Produits d'un vendeur spécifique
-POST   /api/products              # Créer un produit (Vendeur uniquement)
-PUT    /api/products/:id          # Modifier un produit (Vendeur uniquement)
-DELETE /api/products/:id          # Supprimer un produit (Vendeur uniquement)
-```
+- `GET /api/products` - Get all products
+- `GET /api/products/:id` - Get product details
+- `POST /api/products` - Create product (Seller only)
+- `PUT /api/products/:id` - Update product (Seller only)
+- `DELETE /api/products/:id` - Delete product (Seller only)
 
 ### Orders
-```
-GET    /api/orders           # Commandes de l'utilisateur (Auth requis)
-GET    /api/orders/seller    # Commandes reçues par le vendeur (Auth requis)
-POST   /api/orders           # Créer une commande (Client uniquement)
-PUT    /api/orders/:id       # Mettre à jour le statut (Vendeur uniquement)
-```
+- `GET /api/orders` - Get user orders
+- `GET /api/orders/seller` - Get seller orders
+- `POST /api/orders` - Create order
+- `PUT /api/orders/:id` - Update order status
 
 ### Contact
-```
-POST   /api/contact          # Envoyer un message
-```
+- `POST /api/contact` - Send message
 
-## 🐛 Résolution des problèmes
+## �️ Tech Stack
 
-### Le port 5000 est déjà utilisé
+**Frontend:**
+- React 18 + TypeScript
+- Vite
+- Tailwind CSS
+- Shadcn/ui Components
+- Lucide Icons
 
+**Backend:**
+- Node.js + Express
+- Prisma ORM
+- SQLite (development)
+- JWT Authentication
+- bcryptjs
+
+## 🐛 Troubleshooting
+
+### Port 5000 already in use
 ```bash
-# macOS/Linux
 lsof -ti:5000 | xargs kill -9
-
-# Windows
-netstat -ano | findstr :5000
-taskkill /PID <PID> /F
 ```
 
-### Le port 3000 est déjà utilisé
-
-Vite utilisera automatiquement le port 3001. Ou tuez le processus:
-
+### Port 3000 already in use
 ```bash
-# macOS/Linux
 lsof -ti:3000 | xargs kill -9
-
-# Windows
-netstat -ano | findstr :3000
-taskkill /PID <PID> /F
 ```
 
-### Erreur "Objects are not valid as a React child"
-
-✅ Ce problème a été résolu. Si vous voyez toujours cette erreur:
-1. Assurez-vous d'avoir la dernière version du code
-2. Rafraîchissez votre navigateur (Cmd+Shift+R ou Ctrl+Shift+R)
-3. Vérifiez que le backend est bien démarré
-
-### Erreur de base de données
-
-Régénérez la base de données:
-
+### Database issues
 ```bash
 cd backend
-rm prisma/dev.db  # Supprimer l'ancienne DB
+rm prisma/dev.db
 npx prisma generate
 npx prisma db push
-node prisma/seed.js  # Optionnel: données de test
+node prisma/seed.js
 ```
 
-### Page blanche ou erreur au démarrage
-
-1. Vérifiez que les deux serveurs sont démarrés
-2. Ouvrez la console du navigateur (F12) pour voir les erreurs
-3. Vérifiez les logs du terminal backend
-4. Le composant ErrorBoundary devrait afficher un message d'erreur détaillé
-
-### Problèmes de dépendances
-
+### Dependencies issues
 ```bash
 # Backend
 cd backend
@@ -347,68 +261,32 @@ rm -rf node_modules package-lock.json
 npm install
 ```
 
-## 👥 Comptes de test
+## 🤝 Contributing
 
-Après avoir exécuté `node prisma/seed.js`, vous aurez:
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-**Client:**
-```
-Email: client@example.com
-Password: password123
-```
-
-**Vendeur:**
-```
-Email: seller@example.com
-Password: password123
-```
-
-## 📚 Documentation supplémentaire
-
-- [Frontend Features](./frontend/FEATURES.md)
-- [Backend Prisma Setup](./backend/PRISMA_SETUP.md)
-- [User Guide](./USER_GUIDE.md)
-- [Database Fix Summary](./DATABASE_FIX_SUMMARY.md)
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues! N'hésitez pas à:
-
-1. Fork le projet
-2. Créer une branche (`git checkout -b feature/AmazingFeature`)
-3. Commit vos changements (`git commit -m 'Add some AmazingFeature'`)
-4. Push vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrir une Pull Request
-
-## 📄 Licence
+## 📄 License
 
 MIT
 
-## 👨‍💻 Auteurs
+## 👨‍💻 Authors
 
 - **Repository Owner:** [ghayda2004](https://github.com/ghayda2004)
-- **Contributors:** Voir [contributors](https://github.com/ghayda2004/Projet_E_bazar/contributors)
 
-## 🙏 Remerciements
+## 🙏 Acknowledgments
 
-- Design inspiré de [E-commerce Website in French - Figma](https://www.figma.com/design/3CZcm12kmDnywxWpb1fBV5/E-commerce-Website-in-French)
-- Composants UI de [Shadcn/ui](https://ui.shadcn.com/)
-- Icônes de [Lucide](https://lucide.dev/)
+- Design inspired by [E-commerce Website in French - Figma](https://www.figma.com/design/3CZcm12kmDnywxWpb1fBV5/E-commerce-Website-in-French)
+- UI Components: [Shadcn/ui](https://ui.shadcn.com/)
+- Icons: [Lucide](https://lucide.dev/)
 
 ---
 
-**🎉 Bon développement avec El Bazar!**
-git clone https://github.com/ghayda2004/Projet_web_elbazar.git
-cd Projet_web_elbazar
-```
+**Made with ❤️ by the Elbazar Team**
 
-### 2. Backend Setup
-
-```bash
-cd backend
-npm install
-
-# Créer le fichier .env (ou copier depuis .env.example)
 cp .env.example .env
 
 # Démarrer le serveur backend
